@@ -1,14 +1,14 @@
 var APIKey='5e5540730dd5014e7b7b15496a9f4c01';
-var city = 'COLUMBUS';
-// var city = document.getElementByID('city-name');
+// var city = 'COLUMBUS';
+var cityEl = document.getElementById('city-name');
 var weatherHeaderEl=document.getElementById('weather-header');
-var tempEl = documeent.getElementById('temp-today');
+var tempEl = document.getElementById('temp-today');
 var windEl = document.getElementById('wind-today');
 var uvEl = document.getElementById('uv-today');
 var humidityEl=document.getElementById('humidity-today');
 var historyEl = document.getElementById('history');
 var foreCastEl = document.getElementById('forecast-container');
-
+var searchBtn  = document.getElementById('searchBtn');
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
@@ -23,7 +23,8 @@ var foreCastEl = document.getElementById('forecast-container');
 
 
 
-function currentWeather(){
+function getLatLon(){
+    city = cityEl.value ;
     var requestURL='https://api.openweathermap.org/data/2.5/weather?q='+city +"&APPID=" +APIKey;
     console.log(requestURL);
   fetch(requestURL)
@@ -32,24 +33,52 @@ function currentWeather(){
     })
     .then(function(data){
         console.log(data);
-        forecastCall(data.id);
+        lat = data.coord.lat;
+        console.log(lat);
+        lon =data.coord.lon;
+        console.log(lon);
+        currentWeather(lat,lon);
     });
     
 }
-function forecastCall(cityGet){
-    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id="+cityGet+"&appid="+APIKey;
-  fetch(forecastURL)
-  .then(function(response){
-   return response.json();
-  })
-  .then(function(data){
-    console.log(data);
-  })
+// function forecastCall(cityGet){
+//     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id="+cityGet+"&appid="+APIKey;
+//   fetch(forecastURL)
+//   .then(function(response){
+//    return response.json();
+//   })
+//   .then(function(data){
+//     console.log(data);
+//   })
+// }
+    
+function currentWeather(lat,lon){
+    var requestURL="https://api.openweathermap.org/data/2.5/onecall?" +
+    "lat=" + lat +
+      "&lon=" + lon + 
+      "&units=metric" +
+   "&appid=ff9a02b937539db6bdc17cba9723e9a6";
+    fetch(requestURL)
+        .then(function(response){
+            return response.json();
+
+        })
+        .then (function(data){
+            console.log(data);
+
+        })
 }
+
+function displayToday(){
+
+};
+function displayForecast(){
+
+};
+
     
 
-
-    
-    currentWeather();
     
     
+    
+searchBtn.addEventListener('click',getLatLon);
