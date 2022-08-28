@@ -9,6 +9,7 @@ var humidityEl=document.getElementById('humidity-today');
 var historyEl = document.getElementById('history');
 var foreCastEl = document.getElementById('forecast-container');
 var searchBtn  = document.getElementById('searchBtn');
+var iconEl = document.getElementById('icon');
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
@@ -32,11 +33,11 @@ function getLatLon(){
        return response.json();
     })
     .then(function(data){
-        console.log(data);
+      
         lat = data.coord.lat;
-        console.log(lat);
+      
         lon =data.coord.lon;
-        console.log(lon);
+        
         currentWeather(lat,lon);
     });
     
@@ -65,13 +66,51 @@ function currentWeather(lat,lon){
         })
         .then (function(data){
             console.log(data);
+            displayToday(data);
+            // displayForecast();
 
         })
 }
 
-function displayToday(){
+function displayToday(data){
+    //Displays today and the Name of the entered city
+let timestamp=data.daily[0].dt;
+let date = new Date(timestamp *1000);
+var day = date.getDate();
+var month = date.getMonth()+1;
+var year = date.getFullYear();
+let calendar = day + '/' + month + '/' + year;
+weatherHeaderEl.textContent = city + ' ' + calendar;
+ //displays icon for weather
+let iconImg = data.daily[0].weather[0].icon;
+iconEl.innerHTML="<img class='figure-img img-fluid' src=" + "'https://openweathermap.org/img/wn/" + iconImg + "@2x.png'" + "/>";
+//displays temperature
+let temp = data.daily[0].temp.day;
+tempEl.textContent= temp + "°C";
+//displays wind
+let wind = data.daily[0].wind_speed;
+windEl.textContent = wind + 'MPH';
+;
+//displays UV
+let uv =data.daily[0].uvi;
+uvEl.textContent = uv;
+if(uv<=2){
+    uvEl.setAttribute("class", 'bg-success p-1');
+}
+if(uv<=8){
+    uvEl.setAttribute('class', 'bg-warning p-1 px-3 rounded-3');
+}
+else{
+    uvEl.setAttribute('class','bg-danger p-1');
+}
 
-};
+
+
+
+//displays Humidity
+let humidity =data.daily[0].humidity;
+humidityEl.textContent=humidity + "%";
+}
 function displayForecast(){
 
 };
