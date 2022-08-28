@@ -67,7 +67,7 @@ function currentWeather(lat,lon){
         .then (function(data){
             console.log(data);
             displayToday(data);
-            // displayForecast();
+            displayForecast(data);
 
         })
 }
@@ -79,7 +79,7 @@ let date = new Date(timestamp *1000);
 var day = date.getDate();
 var month = date.getMonth()+1;
 var year = date.getFullYear();
-let calendar = day + '/' + month + '/' + year;
+let calendar = month + '/' + day + '/' + year;
 weatherHeaderEl.textContent = city + ' ' + calendar;
  //displays icon for weather
 let iconImg = data.daily[0].weather[0].icon;
@@ -111,7 +111,29 @@ else{
 let humidity =data.daily[0].humidity;
 humidityEl.textContent=humidity + "%";
 }
-function displayForecast(){
+function displayForecast(data){
+    for(var i =1;i<6;i++){
+        //get time 
+        let timestamp =data.daily[i].dt
+        let date = new Date(timestamp *1000);
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        let calendar = month + '/' + day + '/' + year;
+        console.log(calendar);
+        //create card
+        var dayContainer = document.createElement('div')
+        dayContainer.setAttribute('class',"card d-md-inline-block  text-center  ");
+        //create place for time
+        let calendarContainer = document.createElement('p');
+        calendarContainer.textContent=calendar;
+        dayContainer.appendChild(calendarContainer);
+        //get icon
+        //get temp
+        //get wind speed
+        //get humidity
+        foreCastEl.appendChild(dayContainer);
+    }
 
 };
 
