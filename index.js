@@ -1,8 +1,13 @@
-// api key 5e5540730dd5014e7b7b15496a9f4c01
-
 var APIKey='5e5540730dd5014e7b7b15496a9f4c01';
 var city = 'COLUMBUS';
-
+// var city = document.getElementByID('city-name');
+var weatherHeaderEl=document.getElementById('weather-header');
+var tempEl = documeent.getElementById('temp-today');
+var windEl = document.getElementById('wind-today');
+var uvEl = document.getElementById('uv-today');
+var humidityEl=document.getElementById('humidity-today');
+var historyEl = document.getElementById('history');
+var foreCastEl = document.getElementById('forecast-container');
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
