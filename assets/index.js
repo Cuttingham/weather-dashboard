@@ -170,18 +170,28 @@ function displayForecast(data){
    } 
 
     function initShowData(){
-        if (showData===null){
-            return;
-        }
-        else{
-        var showData=JSON.parse(localStorage.getItem("savedData"))
+        
+    let showData=JSON.parse(localStorage.getItem('savedData'));
+    if(showData){
         for(let i =0;i<showData.length;i++){
-            let saveDataBtn=document.createElement("button");
-            saveDataBtn.textContent=showData[i];
-            historyEl.appendChild(saveDataBtn);
-            // saveDataBtn.addEventListener('click',historyBtnHandle(showData));
-        }}
+                    let saveDataBtn=document.createElement("button");
+                    saveDataBtn.textContent=showData[i];
+                    historyEl.appendChild(saveDataBtn);
     }
+    
+   
+    //         return;
+    //     }
+    //     else{
+    //     var showData=JSON.parse(localStorage.getItem("savedData"))
+    //     for(let i =0;i<showData.length;i++){
+    //         let saveDataBtn=document.createElement("button");
+    //         saveDataBtn.textContent=showData[i];
+    //         historyEl.appendChild(saveDataBtn);
+    //         // saveDataBtn.addEventListener('click',historyBtnHandle(showData));
+    //     }}
+    }
+}
 
     // function historyBtnHandle(btn){
     //     console.log(btn.value);
