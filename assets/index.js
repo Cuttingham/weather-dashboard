@@ -10,6 +10,9 @@ var historyEl = document.getElementById('history');
 var foreCastEl = document.getElementById('forecast-container');
 var searchBtn  = document.getElementById('searchBtn');
 var iconEl = document.getElementById('icon');
+var savedData = [];
+var mainEl = document.getElementById('main');
+
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
@@ -25,7 +28,9 @@ var iconEl = document.getElementById('icon');
 
 
 function getLatLon(){
-    city = cityEl.value ;
+    city = cityEl.value;
+   
+    saveData(city);
     var requestURL='https://api.openweathermap.org/data/2.5/weather?q='+city +"&APPID=" +APIKey;
     console.log(requestURL);
   fetch(requestURL)
@@ -120,26 +125,64 @@ function displayForecast(data){
         var month = date.getMonth()+1;
         var year = date.getFullYear();
         let calendar = month + '/' + day + '/' + year;
-        console.log(calendar);
+       
         //create card
         var dayContainer = document.createElement('div')
-        dayContainer.setAttribute('class',"card d-md-inline-block  text-center  ");
+        dayContainer.setAttribute('class',"card d-md-inline-block bg-info mx-1 p-4 text-center  ");
         //create place for time
         let calendarContainer = document.createElement('p');
         calendarContainer.textContent=calendar;
         dayContainer.appendChild(calendarContainer);
         //get icon
+        let iconImg=data.daily[i].weather[0].icon;
+        let iconCard = document.createElement("p");
+       
+        iconCard.innerHTML="<img class='figure-img img-fluid' src=" + "'https://openweathermap.org/img/wn/" + iconImg + "@2x.png'" + "/>";
+        dayContainer.appendChild(iconCard);
         //get temp
+
+        let temp = data.daily[i].temp.day;
+        let tempCard = document.createElement('p');
+        tempCard.textContent="Temperature: "+temp +'°C';
+        dayContainer.appendChild(tempCard);
         //get wind speed
+        let wind = data.daily[i].wind_speed;
+        let windCard = document.createElement('p');
+        windCard.textContent='Wind Speed: ' +wind +" mph";
+        dayContainer.appendChild(windCard);
         //get humidity
+        let humidity = data.daily[i].humidity;
+        let humidityCard = document.createElement('p');
+        humidityCard.textContent = "Humidity: " +humidity + "%";
+        dayContainer.appendChild(humidityCard);
+
         foreCastEl.appendChild(dayContainer);
     }
 
 };
 
-    
+   function saveData (city){
+    savedData.push(city);
+    let saveDataBtn =document.createElement("button");
+    saveDataBtn.textContent=city;
+    historyEl.appendChild(saveDataBtn);
+    localStorage.setItem("savedData",JSON.stringify(savedData));
+   } 
 
+    function initShowData(){
+        var showData=JSON.parse(localStorage.getItem("savedData"))
+        for(let i =0;i<showData.length;i++){
+            let saveDataBtn=document.createElement("button");
+            saveDataBtn.textContent=showData[i];
+            historyEl.appendChild(saveDataBtn);
+            // saveDataBtn.addEventListener('click',historyBtnHandle(showData));
+        }
+    }
+
+    // function historyBtnHandle(btn){
+    //     console.log(btn.value);
+    //attempting to capture data from stored buttons, unsuccessful
+    // }
     
-    
-    
+initShowData();
 searchBtn.addEventListener('click',getLatLon);
