@@ -170,11 +170,11 @@ function displayForecast(data){
    } 
 
     function initShowData(){
-        var showData=JSON.parse(localStorage.getItem("savedData"))
         if (showData===null){
             return;
         }
         else{
+        var showData=JSON.parse(localStorage.getItem("savedData"))
         for(let i =0;i<showData.length;i++){
             let saveDataBtn=document.createElement("button");
             saveDataBtn.textContent=showData[i];
