@@ -26,7 +26,15 @@ var mainEl = document.getElementById('main');
 // THEN I am again presented with current and future conditions for that city
 
 
-
+     
+let showData=JSON.parse(localStorage.getItem('savedData'));
+if(showData){
+    for(let i =0;i<showData.length;i++){
+                let saveDataBtn=document.createElement("button");
+                saveDataBtn.textContent=showData[i];
+                historyEl.appendChild(saveDataBtn);
+}
+}
 function getLatLon(){
     city = cityEl.value;
    
@@ -169,16 +177,8 @@ function displayForecast(data){
     localStorage.setItem("savedData",JSON.stringify(savedData));
    } 
 
-    function initShowData(){
-        
-    let showData=JSON.parse(localStorage.getItem('savedData'));
-    if(showData){
-        for(let i =0;i<showData.length;i++){
-                    let saveDataBtn=document.createElement("button");
-                    saveDataBtn.textContent=showData[i];
-                    historyEl.appendChild(saveDataBtn);
-    }
-    
+  
+   
    
     //         return;
     //     }
@@ -190,13 +190,13 @@ function displayForecast(data){
     //         historyEl.appendChild(saveDataBtn);
     //         // saveDataBtn.addEventListener('click',historyBtnHandle(showData));
     //     }}
-    }
-}
+    
+
 
     // function historyBtnHandle(btn){
     //     console.log(btn.value);
     //attempting to capture data from stored buttons, unsuccessful
     // }
     
-initShowData();
+
 searchBtn.addEventListener('click',getLatLon);
